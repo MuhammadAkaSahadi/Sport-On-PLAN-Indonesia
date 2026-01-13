@@ -8,13 +8,15 @@ export default function Hero() {
       <div className="relative self-center">
         <Image
           src="/images/basketball.png"
-          alt="image sporrton"
+          alt="image sporton"
           width={432}
           height={423}
           className="grayscale absolute left-0 -top-20"
         />
         <div className="relative ml-40 w-full">
-          <div className="inline-block bg-primary/10 rounded-full py-[6px] px-[16px] text-primary italic">Friday Sale, 50%</div>
+          <div className="inline-block bg-primary/10 rounded-full py-[6px] px-[16px] text-primary italic">
+            Friday Sale, 50%
+          </div>
           <h1
             className="font-extrabold italic sm:text-[56px] 
             lg:text-[80px] 
@@ -43,6 +45,13 @@ export default function Hero() {
           </div>
         </div>
         <Image
+          src="/images/ellipse6.png"
+          alt="icon sporton hero"
+          width={700}
+          height={950}
+          className="absolute -right-10 -bottom-20 -translate-y-1/2"
+        />
+        <Image
           src="/images/img-hero.png"
           alt="icon sporton hero"
           width={700}
@@ -51,8 +60,8 @@ export default function Hero() {
         />
       </div>
       <Image
-        src="/images/ellipse.png"
-        alt="icon sporton hero"
+        src="/images/img-ornament-hero.svg"
+        alt="icon sporton"
         width={420}
         height={420}
         className="absolute -right-50 top-1/2 -translate-y-1/2"
