@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Button from "../ui/button";
 import { FiPlus } from "react-icons/fi";
-import Categories from "./categories";
+import priceFormatter from "@/app/utils/price-formatter";
 
 export default function Products() {
   const productList = [
@@ -67,7 +67,7 @@ export default function Products() {
       <div className="grid grid-cols-4 gap-10">
         {productList.map((product, index) => (
           <Link
-            href="#"
+            href={`/products/${product.name}`}
             className="duration-300 cursor-pointer hover:scale-105 hover:shadow-lg p-2 w-90"
             key={index}
           >
@@ -87,11 +87,7 @@ export default function Products() {
             <div className="flex justify-between mb-8">
               <div className="size-3.5 text-[#A0A0A0]">{product.category}</div>
               <div className="text-primary font-medium">
-                {Intl.NumberFormat("id-ID", {
-                  style: "currency",
-                  currency: "IDR",
-                  maximumSignificantDigits: 3,
-                }).format(product.price)}
+                {priceFormatter(product.price)}
               </div>
             </div>
           </Link>
