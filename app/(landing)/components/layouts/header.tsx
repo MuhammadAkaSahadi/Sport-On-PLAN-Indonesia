@@ -2,9 +2,13 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import { FiSearch, FiShoppingBag } from "react-icons/fi";
+import CartPopup from "../ui/cart-popup";
 
 export default function Header() {
+  const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
+
   return (
     <header className="bg-white shadow-sm">
       <div className="container mx-auto px-4 py-4">
@@ -20,12 +24,12 @@ export default function Header() {
 
           <nav className="hidden md:flex gap-8 font-medium items-center">
             <Link
-              href="#"
+              href="/"
               className="relative after:content-[''] after:block after:bg-red-500 after:rounded-full after:h-[3px] after:w-1/2 after:absolute after:left-1/2 after:-translate-x-1/2 after:top-full after:mt-1"
             >
               Home
             </Link>
-            <Link href="#" className="hover:text-red-500 transition-colors">
+            <Link href="" className="hover:text-red-500 transition-colors">
               Category
             </Link>
             <Link href="#" className="hover:text-red-500 transition-colors">
@@ -37,12 +41,13 @@ export default function Header() {
             <button className="hover:text-red-500 transition-colors">
               <FiSearch size={24} />
             </button>
-            <button className="relative hover:text-red-500 transition-colors">
+            <button className="relative hover:text-red-500 transition-colors" onClick={() =>setIsCartPopupOpen(!isCartPopupOpen)}>
               <FiShoppingBag size={24} />
               <div className="bg-red-500 rounded-full w-3.5 h-3.5 absolute -top-1 -right-1 text-[10px] text-white flex items-center justify-center">
                 3
               </div>
             </button>
+            {isCartPopupOpen && <CartPopup/>}
           </div>
         </div>
       </div>

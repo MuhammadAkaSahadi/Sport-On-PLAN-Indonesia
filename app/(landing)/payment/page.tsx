@@ -1,0 +1,18 @@
+import Footer from "../components/layouts/footer";
+import PaymentOptions from "../components/payment/payment-options";
+import PaymentStep from "../components/payment/payment-steps";
+
+export default function Payment() {
+    return (
+      <main className="bg-gray-100 min-h-[80vh]">
+        <div className="max-w-5xl mx-auto py-10">
+          <h1 className="text-5xl font-bold text-center mb-11">Payment</h1>
+          <div className="grid grid-cols-2 gap-14">
+            <PaymentOptions />
+            <PaymentStep />
+          </div>
+        </div>
+        <Footer />
+      </main>
+    );
+}

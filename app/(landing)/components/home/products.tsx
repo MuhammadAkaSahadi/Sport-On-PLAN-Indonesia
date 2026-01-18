@@ -1,12 +1,17 @@
+// app\(landing)\components\home\products.tsx
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import Button from "../ui/button";
 import { FiPlus } from "react-icons/fi";
 import priceFormatter from "@/app/utils/price-formatter";
+import { useRouter } from "next/navigation";
 
 export default function Products() {
   const productList = [
     {
+      id : 1,
       name: "SportsOn Product 1",
       category: "Running",
       price: 450000,
@@ -56,6 +61,8 @@ export default function Products() {
     },
   ];
 
+  const {push} = useRouter();
+
   return (
     <section
       id="products-section"
@@ -67,7 +74,7 @@ export default function Products() {
       <div className="grid grid-cols-4 gap-10">
         {productList.map((product, index) => (
           <Link
-            href={`/products/${product.name}`}
+            href={`/products/${product.id}`}
             className="duration-300 cursor-pointer hover:scale-105 hover:shadow-lg p-2 w-90"
             key={index}
           >
@@ -79,7 +86,7 @@ export default function Products() {
                 alt="productList"
                 className="aspect-square object-contain"
               />
-              <Button className="w-10 h-10 p-2! absolute right-3 top-3">
+              <Button className="w-10 h-10 p-2! absolute right-3 top-3" >
                 <FiPlus size={24} />
               </Button>
             </div>
