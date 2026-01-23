@@ -5,21 +5,25 @@ import Link from "next/link";
 import { useState } from "react";
 import { FiSearch, FiShoppingBag } from "react-icons/fi";
 import CartPopup from "../ui/cart-popup";
+import { useCartStore } from "@/app/hooks/use-cart-store";
 
 export default function Header() {
   const [isCartPopupOpen, setIsCartPopupOpen] = useState(false);
+  const {items} = useCartStore();
 
   return (
-    <header className="bg-white shadow-sm">
+    <header className="bg-white shadow-sm fixed w-full z-10">
       <div className="container mx-auto px-4 py-4">
         <div className="flex justify-between items-center">
           <div className="flex items-center">
-            <Image
-              src="/images/logo.svg"
-              alt="sporton logo"
-              width={127}
-              height={30}
-            />
+            <Link href="/">
+              <Image
+                src="/images/logo.svg"
+                alt="sporton logo"
+                width={127}
+                height={30}
+              />
+            </Link>
           </div>
 
           <nav className="hidden md:flex gap-8 font-medium items-center">
@@ -41,13 +45,19 @@ export default function Header() {
             <button className="hover:text-red-500 transition-colors">
               <FiSearch size={24} />
             </button>
-            <button className="relative hover:text-red-500 transition-colors" onClick={() =>setIsCartPopupOpen(!isCartPopupOpen)}>
+            <button
+              className="relative hover:text-red-500 transition-colors"
+              onClick={() => setIsCartPopupOpen(!isCartPopupOpen)}
+            >
               <FiShoppingBag size={24} />
-              <div className="bg-red-500 rounded-full w-3.5 h-3.5 absolute -top-1 -right-1 text-[10px] text-white flex items-center justify-center">
-                3
-              </div>
+              {items.length ? (<div className="bg-red-500 rounded-full w-3.5 h-3.5 absolute -top-1 -right-1 text-[10px] text-white flex items-center justify-center">
+                {items.length}
+              </div>) : (
+                <>
+                </>
+              )}
             </button>
-            {isCartPopupOpen && <CartPopup/>}
+            {isCartPopupOpen && <CartPopup />}
           </div>
         </div>
       </div>

@@ -5,46 +5,18 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import Button from "./button";
 import { FiArrowRight, FiTrash2 } from "react-icons/fi";
-
-export const cartList = [
-  {
-    name: "SportsOn Product 1",
-    category: "Running",
-    price: 450000,
-    qty: 2,
-    imgUrl: "product-5.png",
-  },
-  {
-    name: "SportsOn Product 2",
-    category: "Running",
-    price: 250000,
-    qty: 3,
-    imgUrl: "product-1.png",
-  },
-  {
-    name: "SportsOn Product 3",
-    category: "Running",
-    price: 230000,
-    qty: 1,
-    imgUrl: "product-3.png",
-  },
-  {
-    name: "SportsOn Product 4",
-    category: "Running",
-    price: 530000,
-    qty: 1,
-    imgUrl: "product-4.png",
-  },
-];
+import { useCartStore } from "@/app/hooks/use-cart-store";
+import { getImageUrl } from "@/app/lib/api";
 
 export default function CartPopup() {
   const { push } = useRouter();
+  const {items, removeItem} = useCartStore();
 
   const handleCheckout = () => {
     push("/checkout");
   };
 
-  const totalPrice = cartList.reduce(
+  const totalPrice = items.reduce(
     // reduce() adalah fungsi array untuk menggabungkan semua isi array menjadi satu nilai.
     (total, item) => total + item.price * item.qty,
     0,
@@ -56,14 +28,14 @@ export default function CartPopup() {
       <div className="font-bold text-center p-4 border-b border-gray-200">
         Shopping Cart
       </div>
-      {cartList.map((item, index) => (
+      {items.length ? items.map((item, index) => (
         <div
           className="font-medium text-sm flex gap-4 border-b border-gray-200 p-5"
           key={index}
         >
           <div className="bg-primary-light aspect-square w-16 flex justify-center items-center">
             <Image
-              src={`/images/products/${item.imgUrl}`}
+              src={getImageUrl(item.imageUrl)}
               width={63}
               height={63}
               alt={item.name}
@@ -81,11 +53,16 @@ export default function CartPopup() {
             className="w-7 h-7 p-0! self-center ml-auto"
             variant="ghost"
             size="small"
+            onClick={()=> removeItem(item._id)}
           >
             <FiTrash2 />
           </Button>
         </div>
-      ))}
+      )) : (
+        <div className="text-center pt-5 text-gray-400">
+          Your cart is empty
+        </div>
+      )}
       <div className="p-5">
         <div className="flex justify-between mb-3 font-semibold">
           <div className="">Total</div>

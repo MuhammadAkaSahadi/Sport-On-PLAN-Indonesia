@@ -9,10 +9,23 @@ import {
   FiShoppingBag,
 } from "react-icons/fi";
 import Button from "../ui/button";
+import { useCartStore } from "@/app/hooks/use-cart-store";
+import { Product } from "@/app/types";
 
-export default function ProductActions() {
+type TProductActionsProps = {
+  product: Product;
+  stock: number;
+}
+
+export default function ProductActions({stock, product}:TProductActionsProps) {
   const { push } = useRouter();
   const [qty, setQty] = useState(1); // Nilai Awal = 1
+
+  const {addItem} = useCartStore();
+
+  const handleAddCart = () => {
+    addItem(product, qty)
+  }
 
   const checkout = () => {};
 
@@ -25,7 +38,7 @@ export default function ProductActions() {
         <div className="flex flex-col">
           <button
             className="border-b border-gray-500 cursor-pointer h-1/2 aspect-square flex items-center justify-center"
-            onClick={() => setQty(qty + 1)}
+            onClick={() => setQty(qty < stock ? qty + 1 : qty)}
           >
             <FiChevronUp />
           </button>
@@ -37,7 +50,7 @@ export default function ProductActions() {
           </button>
         </div>
       </div>
-      <Button className="px-20 w-full">
+      <Button className="px-20 w-full" onClick={handleAddCart}>
         <FiShoppingBag size={24} />
         Add to Cart
       </Button>
