@@ -24,7 +24,7 @@ export default function CartItems({handlePayment} : TCartItems) {
   return (
     <CardWithHeader title="Cart Items">
       <div className="flex flex-col justify-between h-[calc(100%-70px)]">
-        <div className="overflow-auto max-h-[300px]">
+        <div className="overflow-auto max-h-75">
           {items.length ? (
             items.map((item) => (
               <div

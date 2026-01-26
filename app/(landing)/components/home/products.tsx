@@ -59,7 +59,7 @@ export default function Products({ products }: TProductsProps) {
             <h3 className="font-medium text-lg mb-1.5 mt-4">{product.name}</h3>
             <div className="flex justify-between mb-8">
               <div className="size-3.5 text-[#A0A0A0]">
-                {product.category.name}
+                {product.category ? product.category.name : "-"}
               </div>
               <div className="text-primary font-medium">
                 {priceFormatter(product.price)}
