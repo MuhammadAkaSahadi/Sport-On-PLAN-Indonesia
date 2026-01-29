@@ -1,8 +1,10 @@
+// app\(dashboard)\components\layouts\sidebar.tsx
 "use client";
 
+import { logout } from "@/app/services/auth";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import {
   FiBox,
   FiCreditCard,
@@ -13,6 +15,12 @@ import {
 
 export default function SidebarAdmin() {
   const pathname = usePathname();
+  const router = useRouter();
+
+  const handleLogout = () => {
+    logout(); // hapus token & user
+    router.replace("login"); // redirect ke halaman login
+  };
 
   const menuItems = [
     {
@@ -64,13 +72,13 @@ export default function SidebarAdmin() {
           );
         })}
       </div>
-      <Link
-        href="#"
-        className="flex gap-3 font-medium py-3 px-4.5 mx-5 hover:bg-gray-100 duration-300 rounded-lg mt-auto mb-10"
+      <button
+        onClick={handleLogout}
+        className="flex gap-3 font-medium py-3 px-4.5 mx-5 hover:bg-gray-100 duration-300 rounded-lg mb-10 text-left"
       >
         <FiLogOut size={24} />
         Log Out
-      </Link>
+      </button>
     </aside>
   );
 }

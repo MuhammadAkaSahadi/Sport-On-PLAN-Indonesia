@@ -1,0 +1,24 @@
+// app\services\auth.ts
+import { LoginCredentials, LoginResponse } from '../types/index';
+import { fetchAPI } from "../lib/api";
+
+export const login =  async (credentials: LoginCredentials): Promise<LoginResponse> => {
+    const res = await fetchAPI<LoginResponse>("/auth/signin", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      }, // Penting agar server tidak bingung
+      body: JSON.stringify(credentials),
+    });
+
+    if (res.token) {
+        localStorage.setItem("token", res.token);
+        localStorage.setItem("user", JSON.stringify(res.user));
+    }
+    return res;
+};
+
+export const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+}

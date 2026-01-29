@@ -5,7 +5,7 @@ export async function fetchAPI<T> ( // Sifatnya generic <T> supaya bisa digunaka
 ): Promise<T> {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
       ...options, // Menggabungkan semua konfigurasi fetch yang dikirim user
-      cache: options?.cache || "no-store",
+      cache: options?.cache || "no-store", // kita set no-store karena kita ingin mendapat data lebih real time atau lebih updated
     });
 
     if (!res.ok) {
@@ -28,4 +28,13 @@ export async function fetchAPI<T> ( // Sifatnya generic <T> supaya bisa digunaka
 export function getImageUrl(path: string) {
   if (path.startsWith("http")) return path;
   return `${process.env.NEXT_PUBLIC_API_ROOT}/${path}`
+}
+
+export function getAuthHeaders() {
+  // helper function untuk menyisipkan token autentikasi ke setiap request API yang butuh login (Authorization header)
+  const token = localStorage.getItem("token");
+  if (!token) return undefined; // Handle agar jika user belum login, Bearer nya tidak null
+  return {
+    Authorization: `Bearer ${token}`,
+  };
 }

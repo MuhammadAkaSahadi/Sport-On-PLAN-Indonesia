@@ -1,27 +1,17 @@
+import { Bank } from "@/app/types";
 import { FiCreditCard, FiEdit2, FiTrash2 } from "react-icons/fi";
 
-export default function BankInfoList() {
-    const bankData = [
-      {
-        bankName: "BCA",
-        accountNumber: "123123",
-        accountName: "PT SportOn Digital Indonesia",
-      },
-      {
-        bankName: "Mandiri",
-        accountNumber: "1212312313123",
-        accountName: "PT SportOn Digital Indonesia",
-      },
-      {
-        bankName: "BRI",
-        accountNumber: "1123123123",
-        accountName: "PT SportOn Digital Indonesia",
-      },
-    ];
+type TBankInfoListProps = {
+  banks: Bank[];
+  onEdit: (bank: Bank) => void;
+  onDelete: (id: string) => void;
+};
+
+export default function BankInfoList({banks, onEdit, onDelete }: TBankInfoListProps) {
 
     return (
       <div className="grid grid-cols-3 gap-8">
-        {bankData.map((data, index) => (
+        {banks.map((data, index) => (
           <div
             className="bg-white rounded-lg border border-gray-200"
             key={index}
@@ -37,10 +27,13 @@ export default function BankInfoList() {
                 </div>
               </div>
               <div className="flex gap-2 -mt-5 text-gray-600">
-                <button className="cursor-pointer">
+                <button className="cursor-pointer" onClick={() => onEdit(data)}>
                   <FiEdit2 size={20} />
                 </button>
-                <button className="cursor-pointer">
+                <button
+                  className="cursor-pointer"
+                  onClick={() => onDelete(data._id)}
+                >
                   <FiTrash2 size={20} />
                 </button>
               </div>

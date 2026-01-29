@@ -1,19 +1,60 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TransactionModal from "../../components/transaction/transaction-modal";
 import TransactionTable from "../../components/transaction/transaction-table";
+import { Transaction } from "@/app/types";
+import { getAllTransactions, updateTransaction } from "@/app/services/transaction";
+import { toast } from "react-toastify";
 
 export default function AdminTransactions() {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [selectedTransaction, setSelectedTransaction] =
+      useState<Transaction | null>(null);
+    const [transactions, setTransactions] = useState<Transaction[]>([]);
+
+    const fetchTransactions = async () => {
+      try {
+        const data = await getAllTransactions();
+        setTransactions(data);
+      } catch (error) {
+        console.error("Failed to fetch transactions", error);
+      }
+    };
 
     const handleCloseModal = () => {
-      setIsOpen(false);
+      setIsModalOpen(false);
+      setSelectedTransaction(null);
     };
 
-    const handleViewDetails = () => {
-      setIsOpen(true);
+    const handleViewDetails = (transaction: Transaction) => {
+      setIsModalOpen(true);
+      setSelectedTransaction(transaction);
     };
+
+    const handleStatusChange = async (
+      id: string,
+      status: "paid" | "rejected",
+    ) => {
+      try {
+        const formData = new FormData();
+        formData.append("status", status);
+        await updateTransaction(id, formData);
+
+        toast.success("Transaction status updated");
+
+        await fetchTransactions();
+      } catch (error) {
+        console.error("Failed to update transaction status", error);
+        toast.error("Failed to update transaction status");
+      } finally {
+        setIsModalOpen(false);
+      }
+    };
+
+    useEffect(() => {
+      fetchTransactions();
+    }, []);
 
     return (
       <div>
@@ -25,8 +66,16 @@ export default function AdminTransactions() {
             </p>
           </div>
         </div>
-        <TransactionTable onViewDetails={handleViewDetails} />
-        <TransactionModal isOpen={isOpen} onClose={handleCloseModal} />
+        <TransactionTable
+          transactions={transactions}
+          onViewDetails={handleViewDetails}
+        />
+        <TransactionModal
+          transaction={selectedTransaction}
+          onStatusChange={handleStatusChange}
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+        />
       </div>
     );
 }
